@@ -339,11 +339,11 @@ matched:
 
     if (output_header) {
         *output_header = h;
-
+/*
         while (r != r->main) {
             r->parent->headers_in = r->headers_in;
             r = r->parent;
-        }
+        }*/
     }
 
     return NGX_OK;
