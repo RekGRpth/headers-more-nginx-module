@@ -12,6 +12,9 @@ run_tests();
 __DATA__
 
 === TEST 1: simple set (1 arg)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         deny all;
