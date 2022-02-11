@@ -19,6 +19,9 @@ run_tests();
 __DATA__
 
 === TEST 1: clear Opera user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_clear_input_headers User-Agent;
@@ -52,6 +55,9 @@ User-Agent:
 
 
 === TEST 2: clear MSIE 4 user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_clear_input_headers User-Agent;
@@ -89,6 +95,9 @@ User-Agent:
 
 
 === TEST 3: set custom MSIE 4 user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_set_input_headers "User-Agent: Mozilla/4.0 (compatible; MSIE 4.01; Windows NT 5.0)";
@@ -123,6 +132,9 @@ User-Agent: Mozilla/4.0 (compatible; MSIE 4.01; Windows NT 5.0)
 
 
 === TEST 4: clear MSIE 5 user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_clear_input_headers User-Agent;
@@ -160,6 +172,9 @@ User-Agent:
 
 
 === TEST 5: set custom MSIE 5 user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_set_input_headers "User-Agent: Mozilla/4.0 (compatible; MSIE 5.01; Windows 95; MSIECrawler)";
@@ -194,6 +209,9 @@ User-Agent: Mozilla/4.0 (compatible; MSIE 5.01; Windows 95; MSIECrawler)
 
 
 === TEST 6: clear MSIE 6 (without SV1) user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_clear_input_headers User-Agent;
@@ -231,6 +249,9 @@ User-Agent:
 
 
 === TEST 7: set custom MSIE 6 (without SV1) user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_set_input_headers "User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0; Google Wireless Transcoder;)";
@@ -265,6 +286,9 @@ User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0; Google Wireless T
 
 
 === TEST 8: clear MSIE 6 (with SV1) user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_clear_input_headers User-Agent;
@@ -302,6 +326,9 @@ User-Agent:
 
 
 === TEST 9: set custom MSIE 6 (with SV1) user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_set_input_headers "User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; InfoPath.1)";
@@ -336,6 +363,9 @@ User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; InfoPath.1)
 
 
 === TEST 10: set custom MSIE 7 user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_set_input_headers "User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; winfx; .NET CLR 1.1.4322; .NET CLR 2.0.50727; Zune 2.0)";
@@ -370,6 +400,9 @@ User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; winfx; .NET CLR 1
 
 
 === TEST 11: clear Gecko user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_clear_input_headers User-Agent;
@@ -404,6 +437,9 @@ User-Agent:
 
 
 === TEST 12: set custom Gecko user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_set_input_headers "User-Agent: Mozilla/5.0 (Android; Mobile; rv:13.0) Gecko/13.0 Firefox/13.0";
@@ -435,6 +471,9 @@ User-Agent: Mozilla/5.0 (Android; Mobile; rv:13.0) Gecko/13.0 Firefox/13.0
 
 
 === TEST 13: clear Chrome user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_clear_input_headers User-Agent;
@@ -469,6 +508,9 @@ User-Agent:
 
 
 === TEST 14: set custom Chrome user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_set_input_headers "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.151 Safari/535.19";
@@ -500,6 +542,9 @@ User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.19 (K
 
 
 === TEST 15: clear Safari (Mac OS X) user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_clear_input_headers User-Agent;
@@ -534,6 +579,9 @@ User-Agent:
 
 
 === TEST 16: set custom Safari user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_set_input_headers "User-Agent: Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8";
@@ -565,6 +613,9 @@ User-Agent: Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/125.2 (KHTM
 
 
 === TEST 17: clear Konqueror user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_clear_input_headers User-Agent;
@@ -599,6 +650,9 @@ User-Agent:
 
 
 === TEST 18: set custom Konqueror user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_set_input_headers "User-Agent: Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.10 (like Gecko) (Kubuntu)";
