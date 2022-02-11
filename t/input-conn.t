@@ -19,6 +19,9 @@ run_tests();
 __DATA__
 
 === TEST 1: clear the Connection req header
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /req-header {
         more_clear_input_headers Connection;
@@ -49,6 +52,9 @@ connection:
 
 
 === TEST 2: set custom Connection req header (close)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /req-header {
         more_set_input_headers "Connection: CLOSE";
@@ -79,6 +85,9 @@ connection: CLOSE
 
 
 === TEST 3: set custom Connection req header (keep-alive)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /req-header {
         more_set_input_headers "Connection: keep-alive";
@@ -109,6 +118,9 @@ connection: keep-alive
 
 
 === TEST 4: set custom Connection req header (bad)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /req-header {
         more_set_input_headers "Connection: bad";
