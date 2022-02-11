@@ -12,6 +12,9 @@ run_tests();
 __DATA__
 
 === TEST 1: set Server
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         echo hi;
@@ -27,6 +30,9 @@ hi
 
 
 === TEST 2: clear Server
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         echo hi;
@@ -42,6 +48,9 @@ hi
 
 
 === TEST 3: set Content-Type
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         default_type 'text/plan';
@@ -58,6 +67,9 @@ hi
 
 
 === TEST 4: set Content-Type
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         default_type 'text/plan';
@@ -74,6 +86,9 @@ Content-Type: text/css
 
 
 === TEST 5: clear Content-Type
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         default_type 'text/plain';
@@ -90,6 +105,9 @@ Content-Type: text/css
 
 
 === TEST 6: clear Content-Type (colon not required)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         default_type 'text/plain';
@@ -107,6 +125,9 @@ Content-Type: text/css
 
 
 === TEST 7: clear Content-Type (value ignored)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         default_type 'text/plain';
@@ -124,6 +145,9 @@ Content-Type: text/css
 
 
 === TEST 8: clear Content-Type (case insensitive)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         default_type 'text/plain';
@@ -141,6 +165,9 @@ Content-Type: text/css
 
 
 === TEST 9: clear Content-Type using set empty
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         default_type 'text/plain';
@@ -158,6 +185,9 @@ Content-Type: text/css
 
 
 === TEST 10: clear Content-Type using setting key only
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         default_type 'text/plain';
@@ -175,6 +205,9 @@ Content-Type: text/css
 
 
 === TEST 11: set content-length
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /len {
         more_set_headers 'Content-Length: 2';
@@ -190,6 +223,9 @@ he
 
 
 === TEST 12: set content-length multiple times
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /len {
         more_set_headers 'Content-Length: 2';
@@ -206,6 +242,9 @@ hell
 
 
 === TEST 13: clear content-length
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /len {
         more_set_headers 'Content-Length: 4';
@@ -222,6 +261,9 @@ hello
 
 
 === TEST 14: clear content-length (another way)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /len {
         more_set_headers 'Content-Length: 4';
@@ -238,6 +280,9 @@ hello
 
 
 === TEST 15: clear content-type
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /len {
         default_type 'text/plain';
@@ -254,6 +299,9 @@ hello
 
 
 === TEST 16: clear content-type (the other way)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /len {
         default_type 'text/plain';
@@ -270,6 +318,9 @@ hello
 
 
 === TEST 17: set Charset
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /len {
         default_type 'text/plain';
@@ -286,6 +337,9 @@ hello
 
 
 === TEST 18: clear Charset
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /len {
         default_type 'text/plain';
@@ -303,6 +357,9 @@ hello
 
 
 === TEST 19: clear Charset (the other way: using set)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /len {
         default_type 'text/plain';
@@ -320,6 +377,9 @@ hello
 
 
 === TEST 20: set Vary
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         more_set_headers 'Vary: gbk';
