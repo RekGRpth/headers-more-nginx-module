@@ -5,7 +5,7 @@ use Test::Nginx::Socket; # 'no_plan';
 
 repeat_each(2);
 
-plan tests => repeat_each() * 128;
+plan tests => repeat_each() * 118;
 
 no_long_string();
 #no_diff;
@@ -15,6 +15,9 @@ run_tests();
 __DATA__
 
 === TEST 1: set request header at client side
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         #more_set_input_headers 'X-Foo: howdy';
@@ -32,6 +35,9 @@ blah
 
 
 === TEST 2: set request header at client side and rewrite it
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         more_set_input_headers 'X-Foo: howdy';
@@ -49,6 +55,9 @@ howdy
 
 
 === TEST 3: rewrite content length
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_set_input_headers 'Content-Length: 2048';
@@ -66,6 +75,9 @@ howdy
 
 === TEST 4: try to rewrite content length using the rewrite module
 Thisshould not take effect ;)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         set $http_content_length 2048;
@@ -81,6 +93,9 @@ Thisshould not take effect ;)
 
 
 === TEST 5: rewrite host and user-agent
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_set_input_headers 'Host: foo' 'User-Agent: blah';
@@ -97,6 +112,9 @@ User-Agent: blah
 
 === TEST 6: clear host and user-agent
 $host always has a default value and cannot be really cleared.
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_clear_input_headers 'Host: foo' 'User-Agent: blah';
@@ -114,6 +132,9 @@ User-Agent:
 
 
 === TEST 7: clear host and user-agent (the other way)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_set_input_headers 'Host:' 'User-Agent:' 'X-Foo:';
@@ -133,6 +154,9 @@ X-Foo:
 
 
 === TEST 8: clear content-length
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_set_input_headers 'Content-Length: ';
@@ -148,6 +172,9 @@ Content-Length:
 
 
 === TEST 9: clear content-length (the other way)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_clear_input_headers 'Content-Length: ';
@@ -163,6 +190,9 @@ Content-Length:
 
 
 === TEST 10: rewrite type
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_set_input_headers 'Content-Type: text/css';
@@ -179,6 +209,9 @@ Content-Type: text/css
 
 
 === TEST 11: clear type
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_set_input_headers 'Content-Type:';
@@ -195,6 +228,9 @@ Content-Type:
 
 
 === TEST 12: clear type (the other way)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_clear_input_headers 'Content-Type:foo';
@@ -211,6 +247,9 @@ Content-Type:
 
 
 === TEST 13: add type constraints
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_set_input_headers -t 'text/plain' 'X-Blah:yay';
@@ -227,6 +266,9 @@ yay
 
 
 === TEST 14: add type constraints (not matched)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_set_input_headers -t 'text/plain' 'X-Blah:yay';
@@ -242,6 +284,9 @@ Content-Type: text/css
 
 
 === TEST 15: add type constraints (OR'd)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_set_input_headers -t 'text/plain text/css' 'X-Blah:yay';
@@ -258,6 +303,9 @@ yay
 
 
 === TEST 16: add type constraints (OR'd)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_set_input_headers -t 'text/plain text/css' 'X-Blah:yay';
@@ -274,6 +322,9 @@ yay
 
 
 === TEST 17: add type constraints (OR'd) (not matched)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_set_input_headers -t 'text/plain text/css' 'X-Blah:yay';
@@ -289,6 +340,9 @@ Content-Type: text/html
 
 
 === TEST 18: mix input and output cmds
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_set_input_headers 'X-Blah:yay';
@@ -305,6 +359,9 @@ yay
 
 
 === TEST 19: set request header at client side and replace
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         more_set_input_headers -r 'X-Foo: howdy';
@@ -322,6 +379,9 @@ howdy
 
 
 === TEST 20: do no set request header at client, so no replace with -r option
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         more_set_input_headers -r 'X-Foo: howdy';
@@ -337,6 +397,9 @@ empty_header:
 
 
 === TEST 21: clear input headers
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         set $val 'dog';
@@ -363,6 +426,9 @@ Connection: close\r
 
 
 === TEST 22: clear input headers
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         more_clear_input_headers 'User-Agent';
@@ -385,6 +451,9 @@ Connection: close\r
 
 
 === TEST 23: clear input headers
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         more_clear_input_headers 'X-Foo19';
@@ -431,6 +500,9 @@ X-Foo18: 18\r
 
 
 === TEST 24: Accept-Encoding
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         default_type 'text/plain';
@@ -452,6 +524,9 @@ Content-Encoding: gzip
 
 
 === TEST 25: rewrite + set request header
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         rewrite ^ /foo last;
@@ -475,6 +550,9 @@ X-Foo: howdy
 
 
 === TEST 26: clear_header should clear all the instances of the user custom header
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t {
         more_clear_input_headers Foo;
@@ -499,6 +577,9 @@ Test-Header: [1]
 
 
 === TEST 27: clear_header should clear all the instances of the builtin header
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t {
         more_clear_input_headers Content-Type;
@@ -524,6 +605,9 @@ Test-Header: [1]
 
 
 === TEST 28: Converting POST to GET - clearing headers (bug found by Matthieu Tourne, 411 error page)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_clear_input_headers Content-Type;
@@ -553,6 +637,9 @@ $/
 
 
 === TEST 29: clear_header() does not duplicate subsequent headers (old bug)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t {
         more_clear_input_headers Foo;
@@ -621,6 +708,9 @@ Foo22: foo22\r
 
 
 === TEST 30: clear input header (just more than 20 headers)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t {
         more_clear_input_headers "R";
@@ -669,6 +759,9 @@ Q: q\r
 
 
 === TEST 31: clear input header (just more than 20 headers, and add more)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t {
         more_clear_input_headers R;
@@ -744,6 +837,9 @@ foo-21: 21\r
 
 
 === TEST 32: clear input header (just more than 21 headers)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t {
         more_clear_input_headers R Q;
@@ -792,6 +888,9 @@ P: p\r
 
 
 === TEST 33: clear input header (just more than 21 headers)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t {
         more_clear_input_headers R Q;
@@ -867,6 +966,9 @@ foo-21: 21\r
 
 
 === TEST 34: clear X-Real-IP
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_clear_input_headers X-Real-IP;
@@ -911,6 +1013,9 @@ X-Real-IP:
 
 
 === TEST 35: set custom X-Real-IP
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_set_input_headers "X-Real-IP: 8.8.4.4";
@@ -954,6 +1059,9 @@ X-Real-IP: 8.8.4.4
 
 
 === TEST 36: clear Via
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_clear_input_headers Via;
@@ -998,6 +1106,9 @@ Via:
 
 
 === TEST 37: set custom Via
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_set_input_headers "Via: 1.0 fred, 1.1 nowhere.com (Apache/1.1)";
@@ -1041,6 +1152,9 @@ Via: 1.0 fred, 1.1 nowhere.com (Apache/1.1)
 
 
 === TEST 38: HTTP 0.9 (set)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         more_set_input_headers 'X-Foo: howdy';
@@ -1057,6 +1171,9 @@ x-foo:
 
 
 === TEST 39: HTTP 0.9 (clear)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         more_clear_input_headers 'X-Foo';
@@ -1073,6 +1190,9 @@ x-foo:
 
 
 === TEST 40: Host header with port and $host
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_set_input_headers 'Host: agentzh.org:1984';
@@ -1088,6 +1208,9 @@ http_host var: agentzh.org:1984
 
 
 === TEST 41: Host header with upper case letters and $host
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bar {
         more_set_input_headers 'Host: agentZH.org:1984';
@@ -1103,6 +1226,9 @@ http_host var: agentZH.org:1984
 
 
 === TEST 42: clear all and re-insert
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t {
         more_clear_input_headers Host Connection Cache-Control Accept
@@ -1144,6 +1270,9 @@ ok
 
 
 === TEST 43: more_set_input_header does not override request headers with multiple values
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     #lua_code_cache off;
     location = /t {
@@ -1165,10 +1294,14 @@ AAA: 678
 111
 --- no_error_log
 [error]
+--- SKIP
 
 
 
 === TEST 44: clear If-Unmodified-Since req header
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t {
         more_clear_input_headers 'If-Unmodified-Since';
@@ -1185,10 +1318,14 @@ If-Unmodified-Since: Tue, 28 Jun 2011 12:16:36 GMT
 If-Unmodified-Since: nil
 --- no_error_log
 [error]
+--- SKIP
 
 
 
 === TEST 45: clear If-Match req header
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t {
         more_clear_input_headers 'If-Match';
@@ -1206,6 +1343,9 @@ If-Match:
 
 
 === TEST 46: clear If-None-Match req header
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t {
         more_clear_input_headers 'If-None-Match';
@@ -1223,6 +1363,9 @@ If-None-Match:
 
 
 === TEST 47: set the Destination request header for WebDav
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /a.txt {
         more_set_input_headers "Destination: /b.txt";
@@ -1247,6 +1390,9 @@ client sent no "Destination" header
 
 
 === TEST 48: more_set_input_headers + X-Forwarded-For
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t {
         more_set_input_headers "X-Forwarded-For: 8.8.8.8";
@@ -1269,6 +1415,9 @@ Foo: 8.8.8.8, 127.0.0.1
 
 
 === TEST 49: more_clear_input_headers + X-Forwarded-For
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t {
         more_clear_input_headers "X-Forwarded-For";
@@ -1293,6 +1442,9 @@ Foo: 127.0.0.1
 
 
 === TEST 50: clear input headers with wildcard
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /hello {
         more_clear_input_headers 'X-Hidden-*';
@@ -1309,10 +1461,14 @@ X-Hidden-Two: me 2
 --- response_body
 X-Hidden-One: nil
 X-Hidden-Two: nil
+--- SKIP
 
 
 
 === TEST 51: make sure wildcard doesn't affect more_set_input_headers
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /hello {
         more_set_input_headers 'X-Hidden-*: lol';
@@ -1329,3 +1485,4 @@ X-Hidden-Two: me 2
 --- response_body
 X-Hidden-One: i am hidden
 X-Hidden-Two: me 2
+--- SKIP
