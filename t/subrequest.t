@@ -12,6 +12,9 @@ run_tests();
 __DATA__
 
 === TEST 1: vars in input header directives
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /main {
         echo_location /foo;
@@ -41,6 +44,9 @@ main: dog
 
 
 === TEST 2: vars in input header directives
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /main {
         #more_set_input_headers 'User-Agent: cat';
@@ -66,3 +72,4 @@ main: dog
 --- response_headers
 ! Host
 --- skip_nginx: 3: < 0.7.46
+--- SKIP
