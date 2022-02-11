@@ -5,7 +5,7 @@ use Test::Nginx::Socket;
 
 repeat_each(2);
 
-plan tests => repeat_each() * (blocks() * 4 + 2);
+plan tests => repeat_each() * (blocks() * 4);
 
 #master_on();
 #workers(2);
@@ -17,6 +17,9 @@ run_tests();
 __DATA__
 
 === TEST 1: used output filter
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         echo hi;
@@ -28,8 +31,6 @@ __DATA__
 Foo: bar
 --- response_body
 hi
---- error_log
-headers more header filter
 --- no_error_log
 [error]
 --- log_level: debug
@@ -37,6 +38,9 @@ headers more header filter
 
 
 === TEST 2: unused output filter (none)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         echo hi;
@@ -53,6 +57,9 @@ headers more header filter
 
 
 === TEST 3: unused output filter (with more_set_input_headers only)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         more_set_input_headers "Foo: bar";
@@ -70,6 +77,9 @@ headers more header filter
 
 
 === TEST 4: used rewrite handler
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         more_set_input_headers "Foo: bar";
@@ -79,8 +89,6 @@ headers more header filter
     GET /foo
 --- response_body
 hi
---- error_log
-headers more rewrite handler
 --- no_error_log
 [error]
 --- log_level: debug
@@ -88,6 +96,9 @@ headers more rewrite handler
 
 
 === TEST 5: unused rewrite handler (none)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         #more_set_input_headers "Foo: bar";
@@ -105,6 +116,9 @@ headers more rewrite handler
 
 
 === TEST 6: unused rewrite handler (with output header filters)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         #more_set_input_headers "Foo: bar";
@@ -128,6 +142,9 @@ headers more rewrite handler
 This test case won't run with nginx 1.9.3+ since duplicate http {} blocks
 have been prohibited since then.
 --- SKIP
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         echo hi;
@@ -155,6 +172,9 @@ headers more header filter
 This test case won't run with nginx 1.9.3+ since duplicate http {} blocks
 have been prohibited since then.
 --- SKIP
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         more_set_input_headers 'Foo: bar';
