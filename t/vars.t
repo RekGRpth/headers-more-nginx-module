@@ -12,6 +12,9 @@ run_tests();
 __DATA__
 
 === TEST 1: vars
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         echo hi;
@@ -28,6 +31,9 @@ hi
 
 
 === TEST 2: vars in both key and val
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         echo hi;
@@ -44,6 +50,9 @@ hi
 
 
 === TEST 3: vars in input header directives
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         set $val 'dog';
