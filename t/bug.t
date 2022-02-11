@@ -4,7 +4,7 @@ use Test::Nginx::Socket; # 'no_plan';
 
 repeat_each(2);
 
-plan tests => 56 * repeat_each();
+plan tests => 47 * repeat_each();
 
 no_diff;
 
@@ -13,6 +13,9 @@ run_tests();
 __DATA__
 
 === TEST 1: set Server
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     #more_set_headers 'Last-Modified: x';
     more_clear_headers 'Last-Modified';
@@ -25,6 +28,9 @@ __DATA__
 
 
 === TEST 2: variables in the Ranges header
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /index.html {
         set $rfrom 1;
@@ -42,6 +48,9 @@ htm
 
 
 === TEST 3: mime type overriding (inlined types)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     more_clear_headers 'X-Powered-By' 'X-Runtime' 'ETag';
 
@@ -63,6 +72,9 @@ hello
 
 
 === TEST 4: mime type overriding (included types file)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     more_clear_headers 'X-Powered-By' 'X-Runtime' 'ETag';
     include mime.types;
@@ -85,6 +97,9 @@ hello
 
 
 === TEST 5: empty variable as the header value
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         more_set_headers 'X-Foo: $arg_foo';
@@ -100,6 +115,9 @@ hi
 
 
 === TEST 6: range bug
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /index.html {
         more_clear_input_headers "Range*" ;
@@ -121,6 +139,9 @@ html>
 
 
 === TEST 7: Allow-Ranges
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /index.html {
         more_clear_headers 'Accept-Ranges';
@@ -134,6 +155,9 @@ html>
 
 
 === TEST 8: clear hand-written Allow-Ranges headers
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /index.html {
         more_set_headers 'Accept-Ranges: bytes';
@@ -148,6 +172,9 @@ html>
 
 
 === TEST 9: clear first, then add
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bug {
         more_clear_headers 'Foo';
@@ -164,6 +191,9 @@ hello
 
 
 === TEST 10: first add, then clear, then add again
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bug {
         more_set_headers 'Foo: a';
@@ -181,6 +211,9 @@ hello
 
 
 === TEST 11: override charset
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         charset iso-8859-1;
@@ -202,6 +235,9 @@ Content-Type: text/html; charset=UTF-8
 
 
 === TEST 12: set multi-value header to a single value
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /main {
         set $footer '';
@@ -224,10 +260,14 @@ Foo: b
 --- response_body
 foo
 b
+--- SKIP
 
 
 
 === TEST 13: set multi values to cache-control and override it with multiple values (to reproduce a bug)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /lua {
         content_by_lua '
@@ -244,10 +284,14 @@ b
 Cache-Control: blah
 --- response_body
 Cache-Control: blah
+--- SKIP
 
 
 
 === TEST 14: set 20+ headers
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /test {
         more_clear_input_headers "Authorization";
@@ -285,6 +329,9 @@ $s
 
 
 === TEST 15: github #20: segfault caused by the nasty optimization in the nginx core (set)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t/ {
         more_set_headers "Foo: 1";
@@ -303,6 +350,9 @@ Bah: baz
 
 
 === TEST 16: github #20: segfault caused by the nasty optimization in the nginx core (clear)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t/ {
         more_clear_headers Foo;
@@ -321,6 +371,9 @@ Bah: baz
 
 
 === TEST 17: Content-Type response headers with a charset param (correct -t values)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t {
         more_set_headers -t 'text/html' 'X-Foo: Bar';
@@ -342,6 +395,9 @@ ok
 
 
 === TEST 18: Content-Type response headers with a charset param (WRONG -t values)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /t {
         more_set_headers -t 'text/html; charset=utf-8' 'X-Foo: Bar';
@@ -363,6 +419,9 @@ ok
 
 
 === TEST 19: for bad requests (bad request method letter case)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     error_page 400 = /err;
 
@@ -379,6 +438,9 @@ ok
 
 
 === TEST 20: for bad requests (bad request method names)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     error_page 400 = /err;
 
@@ -395,6 +457,9 @@ ok
 
 
 === TEST 21: override Cache-Control header sent by proxy module
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /back {
         content_by_lua_block {
@@ -414,3 +479,4 @@ ok
 Cache-Control: max-age=1800
 --- response_body
 Cache-Control: max-age=0, no-cache
+--- SKIP
