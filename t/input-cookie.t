@@ -19,6 +19,9 @@ run_tests();
 __DATA__
 
 === TEST 1: clear cookie (with existing cookies)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_clear_input_headers Cookie;
@@ -56,6 +59,9 @@ Cookie:
 
 
 === TEST 2: clear cookie (without existing cookies)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_clear_input_headers Cookie;
@@ -90,6 +96,9 @@ Cookie:
 
 
 === TEST 3: set one custom cookie (with existing cookies)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_set_input_headers "Cookie: boo=123";
@@ -129,6 +138,9 @@ Cookie: boo=123
 
 
 === TEST 4: set one custom cookie (without existing cookies)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_set_input_headers "Cookie: boo=123";
@@ -165,6 +177,9 @@ Cookie: boo=123
 
 
 === TEST 5: for bad requests causing segfaults when setting & getting multi-value headers
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     error_page 400 = /err;
 
