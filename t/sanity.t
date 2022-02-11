@@ -17,6 +17,9 @@ run_tests();
 __DATA__
 
 === TEST 1: simple set (1 arg)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         echo hi;
@@ -32,6 +35,9 @@ hi
 
 
 === TEST 2: simple set (2 args)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         echo hi;
@@ -48,6 +54,9 @@ hi
 
 
 === TEST 3: two sets in a single location
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /two {
         echo hi;
@@ -65,6 +74,9 @@ hi
 
 
 === TEST 4: two sets in a single location (for 404 too)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /two {
         more_set_headers 'X-Foo: Blah'
@@ -82,6 +94,9 @@ X-Bar: hi
 
 
 === TEST 5: set a header then clears it (500)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /two {
         more_set_headers 'X-Foo: Blah';
@@ -99,6 +114,9 @@ X-Bar: hi
 
 
 === TEST 6: set a header only when 500 (matched)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         more_set_headers -s 500 'X-Mine: Hiya';
@@ -116,6 +134,9 @@ X-Mine: Hiya
 
 
 === TEST 7: set a header only when 500 (not matched with 200)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         more_set_headers -s 500 'X-Mine: Hiya';
@@ -134,6 +155,9 @@ hello
 
 
 === TEST 8: set a header only when 500 (not matched with 404)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         more_set_headers -s 500 'X-Mine: Hiya';
@@ -151,6 +175,9 @@ X-Yours: Blah
 
 
 === TEST 9: more conditions
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         more_set_headers -s '503 404' 'X-Mine: Hiya';
@@ -168,6 +195,9 @@ X-Mine: Hiya
 
 
 === TEST 10: more conditions
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         more_set_headers -s '503 404' 'X-Mine: Hiya';
@@ -185,6 +215,9 @@ X-Yours: Blah
 
 
 === TEST 11: more conditions
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         more_set_headers -s '503 404' 'X-Mine: Hiya';
@@ -202,6 +235,9 @@ X-Yours: Blah
 
 
 === TEST 12: simple -t
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         default_type 'text/css';
@@ -218,6 +254,9 @@ hi
 
 
 === TEST 13: simple -t (not matched)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         default_type 'text/plain';
@@ -234,6 +273,9 @@ hi
 
 
 === TEST 14: multiple -t (not matched)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         default_type 'text/plain';
@@ -250,6 +292,9 @@ hi
 
 
 === TEST 15: multiple -t (matched)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         default_type 'text/plain';
@@ -266,6 +311,9 @@ hi
 
 
 === TEST 16: multiple -t (matched)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         default_type 'text/javascript';
@@ -282,6 +330,9 @@ hi
 
 
 === TEST 17: multiple -t (matched) with extra spaces
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         default_type 'text/javascript';
@@ -298,6 +349,9 @@ hi
 
 
 === TEST 18: multiple -t merged
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         default_type 'text/javascript';
@@ -314,6 +368,9 @@ hi
 
 
 === TEST 19: multiple -t merged (2)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         default_type 'text/plain';
@@ -330,6 +387,9 @@ hi
 
 
 === TEST 20: multiple -s option in a directive (not matched)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         more_set_headers -s 404 -s 500 'X-status: howdy';
@@ -345,6 +405,9 @@ hi
 
 
 === TEST 21: multiple -s option in a directive (matched 404)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         more_set_headers -s 404 -s 500 'X-status: howdy';
@@ -360,6 +423,9 @@ X-status: howdy
 
 
 === TEST 22: multiple -s option in a directive (matched 500)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         more_set_headers -s 404 -s 500 'X-status: howdy';
@@ -375,6 +441,9 @@ X-status: howdy
 
 
 === TEST 23: -s mixed with -t
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         default_type 'text/html';
@@ -391,6 +460,9 @@ X-status: howdy2
 
 
 === TEST 24: -s mixed with -t
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         default_type 'text/html';
@@ -407,6 +479,9 @@ X-status: howdy2
 
 
 === TEST 25: -s mixed with -t
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         default_type 'text/html';
@@ -424,6 +499,9 @@ hi
 
 
 === TEST 26: -s mixed with -t
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /bad {
         default_type 'text/html';
@@ -440,6 +518,9 @@ hi
 
 
 === TEST 27: merge from the upper level
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     more_set_headers -s 404 -t 'text/html' 'X-status2: howdy3';
     location /bad {
@@ -458,6 +539,9 @@ X-status2: howdy3
 
 
 === TEST 28: merge from the upper level
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     more_set_headers -s 404 -t 'text/html' 'X-status2: howdy3';
     location /bad {
@@ -477,6 +561,9 @@ yeah
 
 
 === TEST 29: override settings by inheritance
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     more_set_headers -s 404 -t 'text/html' 'X-status: yeah';
     location /bad {
@@ -494,6 +581,9 @@ X-status: nope
 
 
 === TEST 30: append settings by inheritance
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     more_set_headers -s 404 -t 'text/html' 'X-status: yeah';
     location /bad {
@@ -512,6 +602,9 @@ X-status2: nope
 
 
 === TEST 31: clear headers with wildcard
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /backend {
         add_header X-Hidden-One "i am hidden";
@@ -533,6 +626,9 @@ hi
 
 
 === TEST 32: clear duplicate headers
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location = /backend {
         add_header pragma no-cache;
@@ -553,6 +649,9 @@ hi
 
 
 === TEST 33: HTTP 0.9 (set)
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /foo {
         more_set_headers 'X-Foo: howdy';
