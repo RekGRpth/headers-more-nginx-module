@@ -23,7 +23,7 @@ __DATA__
     location /foo {
 #        eval_subrequest_in_memory off;
 #        eval_override_content_type text/plain;
-        evaluate $res @res;
+        evaluate $res /res;
         #echo "[$res]";
         if ($res = '1') {
             more_set_input_headers 'Foo: Bar';
@@ -32,7 +32,7 @@ __DATA__
         }
         echo "NOT OK";
     }
-    location @res {
+    location /res {
         echo -n 1;
     }
 --- request
