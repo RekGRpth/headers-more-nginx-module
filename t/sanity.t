@@ -668,6 +668,9 @@ ok
 
 
 === TEST 34: use the -a option to append the cookie field
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /cookie {
         more_set_headers -a 'Set-Cookie: name=lynch';
@@ -683,6 +686,9 @@ ok
 
 
 === TEST 35: the original Set-Cookie fields will not be overwritten, when using the -a option
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /cookie {
         more_set_headers 'Set-Cookie: name=lynch';
@@ -699,6 +705,9 @@ ok
 
 
 === TEST 36: the -a option does nothing when the field is not Set-Cookie
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /cookie {
         more_set_headers "X-Ua-Compatible: IE=Edge";
