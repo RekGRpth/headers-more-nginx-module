@@ -718,7 +718,7 @@ ok
 --- must_die
 --- error_log chomp
 can not append builtin headers
---- SKIP
+--- suppress_stderr
 
 
 
@@ -736,4 +736,4 @@ can not append builtin headers
 --- must_die
 --- error_log chomp
 invalid option name: "-a"
---- SKIP
+--- suppress_stderr
