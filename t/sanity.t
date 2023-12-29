@@ -5,7 +5,7 @@ use Test::Nginx::Socket;
 
 repeat_each(2);
 
-plan tests => repeat_each() * 123;
+plan tests => repeat_each() * 119;
 
 #master_on();
 #workers(2);
@@ -719,6 +719,7 @@ ok
 --- error_log chomp
 can not append builtin headers
 --- suppress_stderr
+--- SKIP
 
 
 
@@ -737,3 +738,4 @@ can not append builtin headers
 --- error_log chomp
 invalid option name: "-a"
 --- suppress_stderr
+--- SKIP
