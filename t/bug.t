@@ -480,3 +480,56 @@ Cache-Control: max-age=1800
 --- response_body
 Cache-Control: max-age=0, no-cache
 --- SKIP
+
+
+
+=== TEST 22: 401 from upstream without WWW-Authenticate header
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
+--- config
+    location = /back {
+        content_by_lua_block {
+            ngx.exit(401)
+        }
+    }
+
+    location = /t {
+        more_set_headers -s "401" 'WWW-Authenticate: Bearer realm="https://my.org/auth"';
+        proxy_pass http://127.0.0.1:$server_port/back;
+    }
+--- request
+    GET /t
+--- error_code: 401
+--- response_headers
+WWW-Authenticate: Bearer realm="https://my.org/auth"
+--- response_body eval
+qr/401 Authorization Required/
+--- SKIP
+
+
+
+=== TEST 22: 401 from upstream with WWW-Authenticate header
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
+--- config
+    location = /back {
+        more_set_headers -s "401" 'WWW-Authenticate: Bearer realm="https://my.org/auth1"';
+        content_by_lua_block {
+            ngx.exit(401)
+        }
+    }
+
+    location = /t {
+        more_set_headers -s "401" 'WWW-Authenticate: Bearer realm="https://my.org/auth"';
+        proxy_pass http://127.0.0.1:$server_port/back;
+    }
+--- request
+    GET /t
+--- error_code: 401
+--- response_headers
+WWW-Authenticate: Bearer realm="https://my.org/auth"
+--- response_body eval
+qr/401 Authorization Required/
+--- SKIP
