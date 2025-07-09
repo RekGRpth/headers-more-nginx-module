@@ -509,7 +509,7 @@ qr/401 Authorization Required/
 
 
 
-=== TEST 22: 401 from upstream with WWW-Authenticate header
+=== TEST 23: 401 from upstream with WWW-Authenticate header
 --- main_config
     load_module /etc/nginx/modules/ngx_http_echo_module.so;
     load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
