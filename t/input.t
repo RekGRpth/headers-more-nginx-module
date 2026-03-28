@@ -407,6 +407,7 @@ empty_header:
         more_clear_input_headers 'User-Agent';
 
         proxy_http_version 1.1;
+        proxy_set_header Connection "";
         proxy_pass http://127.0.0.1:$server_port/proxy;
     }
     location /proxy {
@@ -434,6 +435,7 @@ Host: 127.0.0.1:\$ServerPort\r
         more_clear_input_headers 'User-Agent';
 
         proxy_http_version 1.1;
+        proxy_set_header Connection "";
         proxy_pass http://127.0.0.1:$server_port/proxy;
     }
     location /proxy {
@@ -461,6 +463,7 @@ Host: 127.0.0.1:\$ServerPort\r
         more_clear_input_headers 'X-Foo21';
 
         proxy_http_version 1.1;
+        proxy_set_header Connection "";
         proxy_pass http://127.0.0.1:$server_port/proxy;
     }
     location /proxy {
@@ -614,6 +617,7 @@ Test-Header: [1]
         more_clear_input_headers Content-Length;
 
         proxy_http_version 1.1;
+        proxy_set_header Connection "";
         #proxy_pass http://127.0.0.1:8888;
         proxy_pass http://127.0.0.1:$server_port/back;
     }
@@ -715,6 +719,7 @@ Foo22: foo22\r
     location = /t {
         more_clear_input_headers "R";
         proxy_http_version 1.1;
+        proxy_set_header Connection "";
         proxy_pass http://127.0.0.1:$server_port/back;
         proxy_set_header Host foo;
         #proxy_pass http://127.0.0.1:1234/back;
@@ -772,6 +777,7 @@ Q: q\r
             "foo-19: 19" "foo-20: 20" "foo-21: 21";
 
         proxy_http_version 1.1;
+        proxy_set_header Connection "";
         proxy_pass http://127.0.0.1:$server_port/back;
         proxy_set_header Host foo;
         #proxy_pass http://127.0.0.1:1234/back;
@@ -844,6 +850,7 @@ foo-21: 21\r
     location = /t {
         more_clear_input_headers R Q;
         proxy_http_version 1.1;
+        proxy_set_header Connection "";
         proxy_pass http://127.0.0.1:$server_port/back;
         proxy_set_header Host foo;
         #proxy_pass http://127.0.0.1:1234/back;
@@ -902,6 +909,7 @@ P: p\r
 
         proxy_pass http://127.0.0.1:$server_port/back;
         proxy_http_version 1.1;
+        proxy_set_header Connection "";
         proxy_set_header Host foo;
         #proxy_pass http://127.0.0.1:1234/back;
     }
