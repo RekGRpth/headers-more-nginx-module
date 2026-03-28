@@ -406,7 +406,7 @@ empty_header:
 
         more_clear_input_headers 'User-Agent';
 
-        proxy_http_version 1.0;
+        proxy_http_version 1.1;
         proxy_pass http://127.0.0.1:$server_port/proxy;
     }
     location /proxy {
@@ -417,7 +417,7 @@ empty_header:
 --- more_headers
 User-Agent: my-sock
 --- response_body eval
-"GET /proxy HTTP/1.0\r
+"GET /proxy HTTP/1.1\r
 Host: 127.0.0.1:\$ServerPort\r
 \r
 "
@@ -433,7 +433,7 @@ Host: 127.0.0.1:\$ServerPort\r
     location /foo {
         more_clear_input_headers 'User-Agent';
 
-        proxy_http_version 1.0;
+        proxy_http_version 1.1;
         proxy_pass http://127.0.0.1:$server_port/proxy;
     }
     location /proxy {
@@ -442,7 +442,7 @@ Host: 127.0.0.1:\$ServerPort\r
 --- request
     GET /foo
 --- response_body eval
-"GET /proxy HTTP/1.0\r
+"GET /proxy HTTP/1.1\r
 Host: 127.0.0.1:\$ServerPort\r
 \r
 "
@@ -460,7 +460,7 @@ Host: 127.0.0.1:\$ServerPort\r
         more_clear_input_headers 'X-Foo20';
         more_clear_input_headers 'X-Foo21';
 
-        proxy_http_version 1.0;
+        proxy_http_version 1.1;
         proxy_pass http://127.0.0.1:$server_port/proxy;
     }
     location /proxy {
@@ -475,7 +475,7 @@ for my $i (3..21) {
 }
 $s;
 --- response_body eval
-"GET /proxy HTTP/1.0\r
+"GET /proxy HTTP/1.1\r
 Host: 127.0.0.1:\$ServerPort\r
 X-Foo3: 3\r
 X-Foo4: 4\r
@@ -613,7 +613,7 @@ Test-Header: [1]
         more_clear_input_headers Content-Type;
         more_clear_input_headers Content-Length;
 
-        proxy_http_version 1.0;
+        proxy_http_version 1.1;
         #proxy_pass http://127.0.0.1:8888;
         proxy_pass http://127.0.0.1:$server_port/back;
     }
@@ -714,7 +714,7 @@ Foo22: foo22\r
 --- config
     location = /t {
         more_clear_input_headers "R";
-        proxy_http_version 1.0;
+        proxy_http_version 1.1;
         proxy_pass http://127.0.0.1:$server_port/back;
         proxy_set_header Host foo;
         #proxy_pass http://127.0.0.1:1234/back;
@@ -733,7 +733,7 @@ for my $i ('a' .. 'r') {
 }
 $s
 --- response_body eval
-"GET /back HTTP/1.0\r
+"GET /back HTTP/1.1\r
 Host: foo\r
 User-Agent: curl\r
 A: a\r
@@ -771,7 +771,7 @@ Q: q\r
             "foo-14: 14" "foo-15: 15" "foo-16: 16" "foo-17: 17" "foo-18: 18"
             "foo-19: 19" "foo-20: 20" "foo-21: 21";
 
-        proxy_http_version 1.0;
+        proxy_http_version 1.1;
         proxy_pass http://127.0.0.1:$server_port/back;
         proxy_set_header Host foo;
         #proxy_pass http://127.0.0.1:1234/back;
@@ -790,7 +790,7 @@ for my $i ('a' .. 'r') {
 }
 $s
 --- response_body eval
-"GET /back HTTP/1.0\r
+"GET /back HTTP/1.1\r
 Host: foo\r
 User-Agent: curl\r
 A: a\r
@@ -843,7 +843,7 @@ foo-21: 21\r
 --- config
     location = /t {
         more_clear_input_headers R Q;
-        proxy_http_version 1.0;
+        proxy_http_version 1.1;
         proxy_pass http://127.0.0.1:$server_port/back;
         proxy_set_header Host foo;
         #proxy_pass http://127.0.0.1:1234/back;
@@ -862,7 +862,7 @@ for my $i ('a' .. 'r') {
 }
 $s
 --- response_body eval
-"GET /back HTTP/1.0\r
+"GET /back HTTP/1.1\r
 Host: foo\r
 User-Agent: curl\r
 Bah: bah\r
@@ -901,7 +901,7 @@ P: p\r
             "foo-19: 19" "foo-20: 20" "foo-21: 21";
 
         proxy_pass http://127.0.0.1:$server_port/back;
-        proxy_http_version 1.0;
+        proxy_http_version 1.1;
         proxy_set_header Host foo;
         #proxy_pass http://127.0.0.1:1234/back;
     }
@@ -919,7 +919,7 @@ for my $i ('a' .. 'r') {
 }
 $s
 --- response_body eval
-"GET /back HTTP/1.0\r
+"GET /back HTTP/1.1\r
 Host: foo\r
 User-Agent: curl\r
 Bah: bah\r
