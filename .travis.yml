@@ -28,7 +28,7 @@ env:
     - PCRE_LIB=$PCRE_PREFIX/lib
     - PCRE_INC=$PCRE_PREFIX/include
   matrix:
-    - NGINX_VERSION=1.31.1
+    - NGINX_VERSION=1.31.3
 
 before_install:
   - sudo apt-get update -y
@@ -61,5 +61,5 @@ script:
   - export PATH=$PWD/work/nginx/sbin:$PWD/nginx-devel-utils:$PATH
   - export NGX_BUILD_CC=$CC
   - sh util/build.sh $NGINX_VERSION > build.log 2>&1 || (cat build.log && exit 1)
-  - prove -I. -r t
 
+  - prove -I. -r t
