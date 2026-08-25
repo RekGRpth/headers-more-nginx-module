@@ -417,14 +417,19 @@ empty_header:
     GET /foo
 --- more_headers
 User-Agent: my-sock
---- response_body_like eval
-qr/^GET \/proxy HTTP\/1\.0\r
-(?:Host: 127\.0\.0\.1:$ENV{TEST_NGINX_SERVER_PORT}\r
+--- response_body eval
+($Test::Nginx::Util::NginxVersion < 1.029008 || $Test::Nginx::Util::NginxVersion >= 1.031004) ?
+"GET /proxy HTTP/1.0\r
+Host: 127.0.0.1:\$ServerPort\r
 Connection: close\r
-|Connection: close\r
-Host: 127\.0\.0\.1:$ENV{TEST_NGINX_SERVER_PORT}\r
-)\r
-$/
+\r
+"
+:
+"GET /proxy HTTP/1.0\r
+Connection: close\r
+Host: 127.0.0.1:\$ServerPort\r
+\r
+";
 --- skip_nginx: 3: < 0.7.46
 
 
@@ -446,14 +451,19 @@ $/
     }
 --- request
     GET /foo
---- response_body_like eval
-qr/^GET \/proxy HTTP\/1\.0\r
-(?:Host: 127\.0\.0\.1:$ENV{TEST_NGINX_SERVER_PORT}\r
+--- response_body eval
+($Test::Nginx::Util::NginxVersion < 1.029008 || $Test::Nginx::Util::NginxVersion >= 1.031004) ?
+"GET /proxy HTTP/1.0\r
+Host: 127.0.0.1:\$ServerPort\r
 Connection: close\r
-|Connection: close\r
-Host: 127\.0\.0\.1:$ENV{TEST_NGINX_SERVER_PORT}\r
-)\r
-$/
+\r
+"
+:
+"GET /proxy HTTP/1.0\r
+Connection: close\r
+Host: 127.0.0.1:\$ServerPort\r
+\r
+";
 --- skip_nginx: 3: < 0.7.46
 
 
@@ -483,11 +493,13 @@ for my $i (3..21) {
     $s .= "X-Foo$i: $i\n";
 }
 $s;
---- response_body_like eval
-my $comm_header = "(?:Host: 127\\.0\\.0\\.1:$ENV{TEST_NGINX_SERVER_PORT}\\r\\nConnection: close|Connection: close\\r\\nHost: 127\\.0\\.0\\.1:$ENV{TEST_NGINX_SERVER_PORT})";
+--- response_body eval
 
-qr/^GET \/proxy HTTP\/1\.0\r
-$comm_header\r
+my $comm_header = ($Test::Nginx::Util::NginxVersion < 1.029008 || $Test::Nginx::Util::NginxVersion >= 1.031004) ?
+    "Host: 127.0.0.1:\$ServerPort\r\nConnection: close\r" : "Connection: close\r\nHost: 127.0.0.1:\$ServerPort\r";
+
+"GET /proxy HTTP/1.0\r
+$comm_header
 X-Foo3: 3\r
 X-Foo4: 4\r
 X-Foo5: 5\r
@@ -505,7 +517,7 @@ X-Foo16: 16\r
 X-Foo17: 17\r
 X-Foo18: 18\r
 \r
-$/
+"
 --- skip_nginx: 3: < 0.7.46
 
 
@@ -646,18 +658,16 @@ hello world
 Content-Type: application/ocsp-request
 Test-Header: 1
 --- response_body_like eval
-if ($Test::Nginx::Util::NginxVersion < 1.029008) {
+if ($Test::Nginx::Util::NginxVersion < 1.029008 || $Test::Nginx::Util::NginxVersion >= 1.031004) {
 qr/Connection: close\r
 Test-Header: 1\r
 \r
 $/
 } else {
-qr/POST \/back HTTP\/1\.0\r
-(?:Host: 127\.0\.0\.1:$ENV{TEST_NGINX_SERVER_PORT}\r
+qr/POST \/back HTTP\/1.0\r
 Connection: close\r
-|Connection: close\r
-Host: 127\.0\.0\.1:$ENV{TEST_NGINX_SERVER_PORT}\r
-)Test-Header: 1\r
+Host: 127.0.0.1:$ENV{TEST_NGINX_SERVER_PORT}\r
+Test-Header: 1\r
 \r
 $/
 }
@@ -764,11 +774,11 @@ for my $i ('a' .. 'r') {
     $s .= uc($i) . ": " . "$i\n"
 }
 $s
---- response_body_like eval
-my $comm_header = "(?:Host: foo\\r\\nConnection: close|Connection: close\\r\\nHost: foo)";
-
-qr/^GET \/back HTTP\/1\.0\r
-$comm_header\r
+--- response_body eval
+my $comm_header = ($Test::Nginx::Util::NginxVersion < 1.029008 || $Test::Nginx::Util::NginxVersion >= 1.031004) ?
+"Host: foo\r\nConnection: close\r" : "Connection: close\r\nHost: foo\r";
+"GET /back HTTP/1.0\r
+$comm_header
 User-Agent: curl\r
 A: a\r
 B: b\r
@@ -788,7 +798,7 @@ O: o\r
 P: p\r
 Q: q\r
 \r
-$/
+"
 
 
 
@@ -823,11 +833,11 @@ for my $i ('a' .. 'r') {
     $s .= uc($i) . ": " . "$i\n"
 }
 $s
---- response_body_like eval
-my $comm_header = "(?:Host: foo\\r\\nConnection: close|Connection: close\\r\\nHost: foo)";
-
-qr/^GET \/back HTTP\/1\.0\r
-$comm_header\r
+--- response_body eval
+my $comm_header = ($Test::Nginx::Util::NginxVersion < 1.029008 || $Test::Nginx::Util::NginxVersion >= 1.031004) ?
+"Host: foo\r\nConnection: close\r" : "Connection: close\r\nHost: foo\r";
+"GET /back HTTP/1.0\r
+$comm_header
 User-Agent: curl\r
 A: a\r
 B: b\r
@@ -868,7 +878,7 @@ foo-19: 19\r
 foo-20: 20\r
 foo-21: 21\r
 \r
-$/
+"
 
 
 
@@ -897,11 +907,11 @@ for my $i ('a' .. 'r') {
     $s .= uc($i) . ": " . "$i\n"
 }
 $s
---- response_body_like eval
-my $comm_header = "(?:Host: foo\\r\\nConnection: close|Connection: close\\r\\nHost: foo)";
-
-qr/^GET \/back HTTP\/1\.0\r
-$comm_header\r
+--- response_body eval
+my $comm_header = ($Test::Nginx::Util::NginxVersion < 1.029008 || $Test::Nginx::Util::NginxVersion >= 1.031004) ?
+"Host: foo\r\nConnection: close\r" : "Connection: close\r\nHost: foo\r";
+"GET /back HTTP/1.0\r
+$comm_header
 User-Agent: curl\r
 Bah: bah\r
 A: a\r
@@ -921,7 +931,7 @@ N: n\r
 O: o\r
 P: p\r
 \r
-$/
+"
 
 
 
