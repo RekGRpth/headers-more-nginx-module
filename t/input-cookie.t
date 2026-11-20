@@ -204,6 +204,9 @@ ok
 
 
 === TEST 6: replace-only leaves an absent Cookie header unset
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_set_input_headers -r 'Cookie: theme=dark';
@@ -222,6 +225,9 @@ Theme: []
 
 
 === TEST 7: replace-only updates an existing Cookie header
+--- main_config
+    load_module /etc/nginx/modules/ngx_http_echo_module.so;
+    load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 --- config
     location /t {
         more_set_input_headers -r 'Cookie: theme=dark';
